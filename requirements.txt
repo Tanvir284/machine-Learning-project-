@@ -3,5 +3,7 @@ numpy
 scikit-learn
 matplotlib
 seaborn
-seaborn-talk
+catboost
+xgboost
+lightgbm
 -e.
