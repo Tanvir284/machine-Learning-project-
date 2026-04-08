@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve EduPredict ML App
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/machine-Learning-project-
+Environment="PATH=/home/ubuntu/machine-Learning-project-/venv/bin"
+Environment="FLASK_ENV=production"
+ExecStart=/home/ubuntu/machine-Learning-project-/venv/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target

@@ -9,3 +9,4 @@ lightgbm
 flask
 flask-sqlalchemy
 flask-login
+gunicorn
