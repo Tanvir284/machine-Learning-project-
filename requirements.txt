@@ -6,4 +6,6 @@ seaborn
 catboost
 xgboost
 lightgbm
--e.
+flask
+flask-sqlalchemy
+flask-login

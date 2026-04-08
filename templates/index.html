@@ -1,1 +1,423 @@
-<h1>Welcome to the home page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPredict — Student Performance Predictor</title>
+    <meta name="description" content="Predict student math scores using machine learning. Powered by advanced regression models.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2'%3E%3Cpath d='M22 10v6M2 10l10-5 10 5-10 5z'/%3E%3Cpath d='M6 12v5c3 3 9 3 12 0v-5'/%3E%3C/svg%3E">
+    <style>
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: #0a0a1a;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 60% at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            top: -100px; left: -100px;
+            animation-delay: 0s;
+        }
+        .orb-2 {
+            width: 350px; height: 350px;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            bottom: -80px; right: -80px;
+            animation-delay: -7s;
+        }
+        .orb-3 {
+            width: 250px; height: 250px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            top: 50%; left: 60%;
+            animation-delay: -14s;
+        }
+
+        /* Top nav */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 10, 26, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .nav-logo-text {
+            font-size: 1.15rem; font-weight: 700; color: #f1f5f9;
+        }
+
+        .nav-actions {
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .nav-btn {
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem; font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn-ghost {
+            background: transparent;
+            border: 1px solid transparent;
+            color: #94a3b8;
+        }
+        .nav-btn-ghost:hover { color: #e2e8f0; }
+
+        .nav-btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #cbd5e1;
+        }
+        .nav-btn-outline:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(99, 102, 241, 0.06);
+            color: #f1f5f9;
+        }
+
+        .nav-btn-fill {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3);
+        }
+        .nav-btn-fill:hover {
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .nav-user {
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .nav-avatar {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 700; font-size: 0.82rem;
+        }
+
+        .nav-username {
+            color: #cbd5e1; font-size: 0.88rem; font-weight: 500;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -40px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(15px, 35px) scale(1.02); }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+        }
+
+        /* Main container */
+        .hero {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 700px;
+            padding: 0 24px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            color: #a5b4fc;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 28px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .badge .dot {
+            width: 7px; height: 7px;
+            background: #818cf8;
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        h1 .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 .white-text {
+            color: #f1f5f9;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            line-height: 1.7;
+            max-width: 520px;
+            margin: 0 auto 40px;
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .cta-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 36px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+        }
+
+        .btn-primary svg {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover svg {
+            transform: translateX(3px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 28px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            font-size: 1rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+        }
+
+        /* Stats bar */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 64px;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 0.95rem; }
+            .stats { gap: 24px; flex-wrap: wrap; }
+            .cta-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+            </div>
+            <span class="nav-logo-text">EduPredict</span>
+        </a>
+        <div class="nav-actions">
+            {% if current_user.is_authenticated %}
+                <div class="nav-user">
+                    <div class="nav-avatar">{{ current_user.fullname[0] | upper }}</div>
+                    <span class="nav-username">{{ current_user.fullname }}</span>
+                </div>
+                <a href="/predictdata" class="nav-btn nav-btn-outline">Dashboard</a>
+                <a href="/logout" class="nav-btn nav-btn-ghost">Logout</a>
+            {% else %}
+                <a href="/signin" class="nav-btn nav-btn-ghost" id="nav-signin">Sign In</a>
+                <a href="/signup" class="nav-btn nav-btn-fill" id="nav-signup">Sign Up Free</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="badge">
+            <span class="dot"></span>
+            ML-Powered Prediction Engine
+        </div>
+
+        <h1>
+            <span class="white-text">Predict Student</span><br>
+            <span class="gradient-text">Exam Performance</span>
+        </h1>
+
+        <p class="subtitle">
+            Leverage advanced machine learning models trained on real student data to accurately predict math scores based on demographic and academic factors.
+        </p>
+
+        <div class="cta-group">
+            <a href="/predictdata" class="btn-primary" id="cta-predict">
+                Start Predicting
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="#" class="btn-secondary" id="cta-learn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                </svg>
+                Learn More
+            </a>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">7</div>
+                <div class="stat-label">ML Models</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">87%+</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">Data Points</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
